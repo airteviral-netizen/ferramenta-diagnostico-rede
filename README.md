@@ -19,3 +19,4 @@ Aplicação desktop desenvolvida em Python com CustomTkinter para realizar diagn
 
 ## Instruções para Instalação e Execução
 FALTA FAZER AINDA XXXXXXXXXX# ferramenta-diagnostico-rede
+# ferramenta-diagnostico-rede
