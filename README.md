@@ -16,7 +16,4 @@ Aplicação desktop desenvolvida em Python com CustomTkinter para realizar diagn
 - CustomTkinter (Interface Gráfica)
 - psutil (Informações de Hardware e Rede)
 - subprocess e threading (Execução de comandos do sistema de forma não-bloqueante)
-
-## Instruções para Instalação e Execução
-FALTA FAZER AINDA XXXXXXXXXX# ferramenta-diagnostico-rede
 # ferramenta-diagnostico-rede
