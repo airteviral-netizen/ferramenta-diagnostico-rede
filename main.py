@@ -1,38 +1,42 @@
-import socket
-import subprocess
-import threading
-import customtkinter as ctk
-import psutil
+import socket #servirá para pegar o nome do computador e o IP local.
+import subprocess # servirá para rodar o comando ping do Windows.
+import threading # servirá para rodar o ping em uma thread separada, evitando que a interface trave.
+import customtkinter as ctk# servirá para criar a interface gráfica do programa.
+import psutil # servirá para pegar o nome da placa de rede ativa.
 
-# Deixando o visual do aplicativo moderno e combinando com o sistema
-ctk.set_appearance_mode("System")
-ctk.set_default_color_theme("blue")
+#serve para deixar mais apresentável a interface do programa.
+ctk.set_appearance_mode("System") # significa que a interface vai seguir o tema do sistema operacional (claro ou escuro).
+ctk.set_default_color_theme("blue") # significa que a cor padrão da interface vai ser azul.
 
-
+#essa é a base da nossa aplicação.
 class FerramentaDiagnostico(ctk.CTk):
 
   def __init__(self):
     super().__init__()
 
-    # Configurações da janela principal
+    # Aqui conseguimos colocar o título da janela, o tamanho inicial e se ela pode ser redimensionada ou não.
     self.title("Ferramenta de Diagnóstico de Rede")
     self.geometry("750x600")
-    self.resizable(False, False)
+    self.resizable(True, True) # se mudar para False, False a janela não pode ser redimensionada. 
+    #o que significa true, true é que a janela pode ser redimensionada tanto na horizontal quanto na vertical.
+    #o que significa false, false é que a janela não pode ser redimensionada nem na horizontal nem na vertical.
 
-    # Chamando as funções que criam a tela e buscam os dados
-    self.montar_tela()
-    self.pegar_infos_pc()
+    # Aqui chamamos a função que pega as informações do pc 
+  
+    self.montar_tela() # chama a função que monta a tela da aplicação.
+    self.pegar_infos_pc() # chama a função que pega as informações do pc.
 
   def montar_tela(self):
-    # Título principal lá no topo
-    lbl_titulo = ctk.CTkLabel(
+    # Título principal do topo.
+    lbl_titulo = ctk.CTkLabel( 
         self, text='''Diagnóstico de Rede
 LUCAS -  DEODENIZ''', font=("Arial", 22, "bold")
     )
-    lbl_titulo.pack(pady=15)
+    lbl_titulo.pack(pady=15) #isso significa que o título vai ter um espaçamento de 15 pixels em cima e embaixo. 
+    # e a função pack() serve para colocar o título na tela, e o parâmetro pady significa que vai ter um espaçamento de 15 pixels em cima e embaixo do título.
 
-    # --- Bloco 1: Informações do Computador ---
-    frame_info = ctk.CTkFrame(self)
+    # Informações do Computador
+    frame_info = ctk.CTkFrame(self) # o CTK Significa Custom Tkinter, que é uma biblioteca que serve para criar interfaces gráficas mais bonitas e modernas do que o Tkinter padrão.
     frame_info.pack(fill="x", padx=20, pady=10)
 
     lbl_info_titulo = ctk.CTkLabel(
@@ -40,13 +44,15 @@ LUCAS -  DEODENIZ''', font=("Arial", 22, "bold")
     )
     lbl_info_titulo.pack(anchor="w", padx=10, pady=5)
 
-    # Onde vai aparecer o IP e o nome do PC
+    # Aqui serve para mostrar as informações do computador, como nome do PC, IP local e nome da placa de rede ativa.
     self.lbl_detalhes = ctk.CTkLabel(
         frame_info, text="Buscando informações...", justify="left", font=("Consolas", 12)
     )
     self.lbl_detalhes.pack(anchor="w", padx=10, pady=5)
+    #O ctk label é um widget que serve para mostrar texto na tela, e o parâmetro justify significa que o 
+    #texto vai ficar alinhado à esquerda, e o parâmetro font significa que a fonte do texto vai ser Consolas, tamanho 12.
 
-    # --- Bloco 2: Teste de Ping ---
+    # Teste de Ping
     frame_ping = ctk.CTkFrame(self)
     frame_ping.pack(fill="x", padx=20, pady=10)
 
@@ -67,7 +73,7 @@ LUCAS -  DEODENIZ''', font=("Arial", 22, "bold")
     )
     btn_ping.pack(side="left", padx=5, pady=10)
 
-    # --- Bloco 3: Resultados ---
+    # Resultados 
     frame_res = ctk.CTkFrame(self)
     frame_res.pack(fill="both", expand=True, padx=20, pady=10)
 
@@ -76,7 +82,7 @@ LUCAS -  DEODENIZ''', font=("Arial", 22, "bold")
     )
     lbl_res_titulo.pack(anchor="w", padx=10, pady=5)
 
-    # Caixa de texto preta estilo terminal onde sai o resultado
+    # Caixa de texto onde sai o resultado
     self.caixa_texto = ctk.CTkTextbox(frame_res, font=("Consolas", 12))
     self.caixa_texto.pack(fill="both", expand=True, padx=10, pady=5)
 
@@ -99,7 +105,7 @@ LUCAS -  DEODENIZ''', font=("Arial", 22, "bold")
           nome_rede = placa
           break
 
-      # Jonta tudo num texto bonitinho para mostrar na tela
+      # Junta tudo num texto bonitinho para mostrar na tela
       texto_final = (
           f"• Nome do PC: {nome_computador}\n"
           f"• Meu IP Local: {meu_ip}\n"
